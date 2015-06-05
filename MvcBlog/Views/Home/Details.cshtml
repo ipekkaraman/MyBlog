@@ -1,0 +1,69 @@
+﻿@model MvcBlog.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+}
+
+    <div style="width:70%;margin-top:25px;margin-left:120px;box-shadow:0 0 5px gray;padding:25px;">
+    <b>@Html.DisplayFor(modelItem => Model.Title)</b><br />
+    <hr style="margin-top:5px; margin-bottom:5px;" />
+
+    <b>Author :</b>
+    @Html.DisplayFor(modelItem => Model.Author)
+
+    <b>&nbsp;&nbsp;&nbsp;&nbsp;Created Time:</b>
+
+    @Html.DisplayFor(modelItem => Model.Createdtime)
+    <hr style="margin-top:5px; margin-bottom:5px;" />
+
+    @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
+
+    <br />
+    <br />
+
+    @if (Model.Images.Count != 0)
+    {
+        <h4>Images:</h4>
+
+        foreach (var item in Model.Images)
+        {
+
+            <img src="@Url.Content(item.Path)" width="200" height="200">
+
+        }
+    }
+    <br />
+    <br />
+    <h4>Comments :</h4>
+    @if (Model.Comments.Count == 0)
+    {
+        <p>No comments yet...</p>
+    }
+
+    @foreach (var item in Model.Comments)
+    {
+        <div class="comment" style="background-color:#F9FAFB;">
+            <hr style="margin-top:5px; margin-bottom:5px;" />
+
+            <b>Created Time :</b>
+            @Html.DisplayFor(modelItem => item.Createdtime)
+
+            <hr style="margin-top:5px; margin-bottom:5px;" />
+
+            @Html.DisplayFor(modelItem => item.Content)
+
+            <br />
+            <br />
+        </div>
+    }
+
+</div>
+
+<div style="width:70%;margin-top:25px;margin-left:120px;box-shadow:0 0 5px gray;padding:25px;">
+    @Html.Partial("CreateComment", new MvcBlog.Models.Comment())
+</div>
+    <br />
+    <br />
+
+
+

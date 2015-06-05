@@ -1,0 +1,40 @@
+﻿@model PagedList.IPagedList<MvcBlog.Models.Post>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Home Page";
+}
+
+    @foreach (var item in Model)
+    {
+        <div style="width:70%;margin-top:25px;margin-left:120px;box-shadow:0 0 5px gray;padding:25px;">
+            @Html.ActionLink(item.Title, "Details", new { id = item.ID })<br />
+            <hr style="margin-top:5px; margin-bottom:5px;" />
+
+            <b>Author :</b>
+            @Html.DisplayFor(modelItem => item.Author)
+
+
+            <b>&nbsp;&nbsp;&nbsp;&nbsp;Created Time:</b>
+
+
+            @Html.DisplayFor(modelItem => item.Createdtime)
+            <hr style="margin-top:5px; margin-bottom:5px;" />
+
+
+            @item.Content.Substring(0, Math.Min(item.Content.Length, 1200))
+            ...
+
+            @Html.ActionLink("Read More", "Details", new { id = item.ID })
+            <br />
+            <br />
+        </div>
+    }
+   
+    <br />
+<div style="margin-left:120px">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
